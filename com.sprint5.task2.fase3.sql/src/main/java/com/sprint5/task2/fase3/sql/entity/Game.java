@@ -12,13 +12,9 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    private Integer points;
+    private int id;
+    private int points;
     private String resultGame;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private User user; //
-
-
-
 }

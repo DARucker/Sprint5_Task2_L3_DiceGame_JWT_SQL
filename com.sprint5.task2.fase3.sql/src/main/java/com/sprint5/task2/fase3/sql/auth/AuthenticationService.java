@@ -4,11 +4,16 @@ import com.sprint5.task2.fase3.sql.config.JwtService;
 import com.sprint5.task2.fase3.sql.entity.Role;
 import com.sprint5.task2.fase3.sql.entity.User;
 import com.sprint5.task2.fase3.sql.repository.UserRepository;
+import com.sprint5.task2.fase3.sql.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,13 +24,26 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserServiceImpl userService;
 
     public AuthenticationResponse register(RegisterRequest request){
+
+        if(!request.getName().equals("")) {
+            Optional<User> UserDbName = userService.findByName(request.getName());
+            if (UserDbName.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Te user with name " + request.getName() + " or email " + request.getEmail() + " exists.");
+            }
+        }
+            Optional<User> UserDbEmail = userService.findByEmail(request.getEmail());
+            if (UserDbEmail.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Te user with name " + request.getName() + " or email " + request.getEmail() + " exists.");
+        }
+
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER) // At this point we are hardcoding role
+                .role(Role.USER) // In this exercise I am hardcoding the role
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -45,5 +63,13 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+
+    // TODO
+    public void update(RegisterRequest request) {
+
+
+
     }
 }

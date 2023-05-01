@@ -10,7 +10,7 @@ public interface IUserService {
 
     Userdto findById(int id);
     List<User> findAll();
-//    Userdto update(Userdto Userdto);
+    //Userdto update(Userdto Userdto);
 
     Optional<User> findByName(String name);
     Optional<User> findByEmail(String email);

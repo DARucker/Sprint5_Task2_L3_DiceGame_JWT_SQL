@@ -26,7 +26,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/dicegame-V-sql-openapi")
                 .permitAll()
-                // TODO user or game controller.requestMatchers("/api/v1/demo-controller/administrator")
                 .anyRequest()
                 .authenticated()
                 .and()

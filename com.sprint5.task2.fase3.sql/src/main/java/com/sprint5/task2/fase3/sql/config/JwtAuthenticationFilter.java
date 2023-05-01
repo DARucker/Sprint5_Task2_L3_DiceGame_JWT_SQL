@@ -1,5 +1,8 @@
 package com.sprint5.task2.fase3.sql.config;
 
+import com.sprint5.task2.fase3.sql.repository.UserRepository; //
+import com.sprint5.task2.fase3.sql.entity.User; //
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +23,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private final UserRepository userRepository; //
+
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -34,6 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
     jwt = authHeader.substring(7);
     userEmail = jwtService.extractUsername(jwt);
+    User userDB = userRepository.findByEmail(userEmail).get(); //
+        if(!userDB.getEmail().equals(userEmail)){ //
+            filterChain.doFilter(request, response);//
+            return;//
+            //throw new RuntimeException();
+        }//
     if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
         if(jwtService.isTokenValid(jwt, userDetails)){

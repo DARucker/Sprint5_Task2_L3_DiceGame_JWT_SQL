@@ -49,7 +49,7 @@ public class AuthenticationController {
             Map<String, Object> error = new HashMap<>();
             error.put("Message", e.getMessage());
             error.put("Reason", e.getReason());
-            return new ResponseEntity<Map<String, Object>>(error, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Map<String, Object>>(error, HttpStatus.BAD_REQUEST);
         }
     }
 

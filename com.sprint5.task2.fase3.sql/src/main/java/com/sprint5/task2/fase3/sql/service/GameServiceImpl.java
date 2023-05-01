@@ -1,5 +1,8 @@
 package com.sprint5.task2.fase3.sql.service;
 
+import com.sprint5.task2.fase3.sql.config.ApplicationConfig;
+import com.sprint5.task2.fase3.sql.config.JwtAuthenticationFilter;
+import com.sprint5.task2.fase3.sql.config.SecurityConfiguration;
 import com.sprint5.task2.fase3.sql.dto.Gamedto;
 import com.sprint5.task2.fase3.sql.dto.Ranking;
 import com.sprint5.task2.fase3.sql.dto.Userdto;
@@ -13,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,6 +38,7 @@ public class GameServiceImpl implements IGameService {
         return new ModelMapper();
     }
 
+    private final SecurityConfiguration securityConfiguration;
     @Autowired
     private IUserService userService;
 
@@ -41,8 +47,6 @@ public class GameServiceImpl implements IGameService {
         Gamedto gamedto = new Gamedto();
         gamedto.setUserdto(userdto);
         gamedto.setPoints(rollDice());
-
-        int points = rollDice();
         if(gamedto.getPoints()==7){
             gamedto.setResultGame("Win");
         }else {
@@ -75,10 +79,6 @@ public class GameServiceImpl implements IGameService {
         }
         gameRepository.deleteByUserId(id);
     }
-
-
-
-
 
     /**
      * findAllByPlayerId

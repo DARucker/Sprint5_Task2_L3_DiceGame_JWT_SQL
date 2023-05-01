@@ -42,6 +42,7 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findAll();
     }
 
+
     /**
      * This method search for the User into the database
      * @param name

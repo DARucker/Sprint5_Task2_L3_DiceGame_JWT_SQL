@@ -72,13 +72,15 @@ public class GameController {
     @ApiResponse(responseCode = "200", description = "Games deleted", content = @Content)
     @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     @DeleteMapping("/{id}/games/")
-    public void deleteGamesByUserId(@PathVariable int id){
+    public ResponseEntity<?> deleteGamesByUserId(@PathVariable int id){
         try {
             gameService.deleteGamesByUserId(id);
+            return ResponseEntity.ok(id);
         }catch(ResponseStatusException e){
             Map<String, Object> error = new HashMap<>();
             error.put("Message", e.getMessage());
             error.put("Reason", e.getReason());
+            return new ResponseEntity<Map<String, Object>>(error, HttpStatus.NOT_FOUND);
         }
     }
 

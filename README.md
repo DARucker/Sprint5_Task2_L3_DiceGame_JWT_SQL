@@ -23,23 +23,24 @@ The software must allow listing all the players in the system, the success rate 
 The software must respect the main design patterns.
 GRADES
 
-You have to take into account the following construction details:
+You have to take into account the following construction details: - 
 
 - URL's:
 
-POST: /players: create a player.
-PUT /players: modifies the name of the player.
-POST /players/{id}/games/ : a specific player rolls the dice.
-DELETE /players/{id}/games – Deletes the player's rolls.
-GET /players/: returns the list of all the players in the system with their average percentage of successes.
-GET /players/{id}/games: returns the list of games played by a player.
-GET /players/ranking: returns the average ranking of all players in the system. That is, the average percentage of achievements.
-GET /players/ranking/loser: returns the player with the worst success rate.
-GET /players/ranking/winner: Returns the player with the worst success rate.
+- POST: /players: create a player.
+- PUT /players: modifies the name of the player.
+- POST /players/{id}/games/ : a specific player rolls the dice.
+- DELETE /players/{id}/games – Deletes the player's rolls.
+- GET /players/: returns the list of all the players in the system with their average percentage of successes.
+- GET /players/{id}/games: returns the list of games played by a player.
+- GET /players/ranking: returns the average ranking of all players in the system. That is, the average percentage of achievements.
+- GET /players/ranking/loser: returns the player with the worst success rate.
+- GET /players/ranking/winner: Returns the player with the worst success rate.
 
  - Swagger:
 
    http://localhost:8080/swagger-ui/index.html#/
+   springdoc.api-docs.path = /dicegame-V-sql-openapi
 
 
 - Phase 1
